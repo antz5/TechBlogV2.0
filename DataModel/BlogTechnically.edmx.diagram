@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="90ebd269bba449c18d25086dc100bd1f" Name="Diagram1">
+        <EntityTypeShape EntityType="BlogTechnicallyModel.BlogTechnically_Category" Width="1.5" PointX="7.5" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlogTechnicallyModel.BlogTechnically_Comment" Width="1.5" PointX="9.75" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlogTechnicallyModel.BlogTechnically_Permission" Width="1.5" PointX="0.75" PointY="9.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlogTechnicallyModel.BlogTechnically_Post" Width="1.5" PointX="7.5" PointY="9.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlogTechnicallyModel.BlogTechnically_Profile" Width="1.5" PointX="7.5" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlogTechnicallyModel.BlogTechnically_Role" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlogTechnicallyModel.BlogTechnically_Token" Width="1.5" PointX="7.5" PointY="17.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlogTechnicallyModel.BlogTechnically_User" Width="1.5" PointX="5.25" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BlogTechnicallyModel.sysdiagram" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="BlogTechnicallyModel.FK_BlogTechnically_Category_BlogTechnically_User" ManuallyRouted="false" />
+        <AssociationConnector Association="BlogTechnicallyModel.FK_BlogTechnically_Comment_BlogTechnically_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="BlogTechnicallyModel.FK_BlogTechnically_Comment_BlogTechnically_User" ManuallyRouted="false" />
+        <AssociationConnector Association="BlogTechnicallyModel.FK_BlogTechnically_Role_BlogTechnically_Permission" ManuallyRouted="false" />
+        <AssociationConnector Association="BlogTechnicallyModel.FK_BlogTechnically_Post_BlogTechnically_Post" ManuallyRouted="false" />
+        <AssociationConnector Association="BlogTechnicallyModel.FK_BlogTechnically_Post_BlogTechnically_User" ManuallyRouted="false" />
+        <AssociationConnector Association="BlogTechnicallyModel.FK_BlogTechnically_Profile_BlogTechnically_User" ManuallyRouted="false" />
+        <AssociationConnector Association="BlogTechnicallyModel.FK_BlogTechnically_Role_BlogTechnically_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="BlogTechnicallyModel.FK_BlogTechnically_User_BlogTechnically_Role" ManuallyRouted="false" />
+        <AssociationConnector Association="BlogTechnicallyModel.FK_BlogTechnically_Token_BlogTechnically_User" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

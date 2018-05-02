@@ -1,0 +1,695 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BlogTechnicallyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BlogTechnically_Category">
+          <Key>
+            <PropertyRef Name="CategoryId_PK" />
+          </Key>
+          <Property Name="CategoryId_PK" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="CreatedDate" Type="datetime" Nullable="false" />
+          <Property Name="Active" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="LoginId_FK" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BlogTechnically_Comment">
+          <Key>
+            <PropertyRef Name="CommentId_PK" />
+          </Key>
+          <Property Name="CommentId_PK" Type="int" Nullable="false" />
+          <Property Name="LoginId_FK" Type="int" />
+          <Property Name="Comment" Type="text" />
+          <Property Name="CommentedDate" Type="datetime" />
+          <Property Name="Status" Type="char" MaxLength="1" />
+          <Property Name="PostId_FK" Type="int" />
+          <Property Name="ParentId" Type="int" />
+        </EntityType>
+        <EntityType Name="BlogTechnically_Permission">
+          <Key>
+            <PropertyRef Name="PermissionId_PK" />
+          </Key>
+          <Property Name="PermissionId_PK" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="BlogTechnically_Post">
+          <Key>
+            <PropertyRef Name="PostId_PK" />
+          </Key>
+          <Property Name="PostId_PK" Type="int" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="PostContent" Type="text" Nullable="false" />
+          <Property Name="PostedBy" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PostedDate" Type="datetime" Nullable="false" />
+          <Property Name="Status" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="LastModifiedDate" Type="datetime" Nullable="false" />
+          <Property Name="LoginId_FK" Type="int" Nullable="false" />
+          <Property Name="CommentId_FK" Type="int" />
+        </EntityType>
+        <EntityType Name="BlogTechnically_Profile">
+          <Key>
+            <PropertyRef Name="ProfileId_PK" />
+          </Key>
+          <Property Name="ProfileId_PK" Type="int" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" />
+          <Property Name="City" Type="varchar" MaxLength="50" />
+          <Property Name="Country" Type="varchar" MaxLength="50" />
+          <Property Name="ProfilePicture" Type="varbinary(max)" />
+          <Property Name="LoginId_FK" Type="int" />
+          <Property Name="AboutMe" Type="text" />
+          <Property Name="MobileNumber" Type="varchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="BlogTechnically_Role">
+          <Key>
+            <PropertyRef Name="RoleId_PK" />
+          </Key>
+          <Property Name="RoleId_PK" Type="int" Nullable="false" />
+          <Property Name="RoleType" Type="varchar" MaxLength="50" />
+          <Property Name="PermissionId_FK" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="BlogTechnically_Token">
+          <Key>
+            <PropertyRef Name="TokenId_PK" />
+          </Key>
+          <Property Name="TokenId_PK" Type="int" Nullable="false" />
+          <Property Name="LoginId_FK" Type="int" />
+          <Property Name="IssuedOn" Type="datetime" />
+          <Property Name="ExpiresOn" Type="datetime" />
+          <Property Name="AuthToken" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="BlogTechnically_User">
+          <Key>
+            <PropertyRef Name="LoginId_PK" />
+          </Key>
+          <Property Name="LoginId_PK" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="RoleId_FK" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_BlogTechnically_Category_BlogTechnically_User">
+          <End Role="BlogTechnically_User" Type="Self.BlogTechnically_User" Multiplicity="1" />
+          <End Role="BlogTechnically_Category" Type="Self.BlogTechnically_Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_User">
+              <PropertyRef Name="LoginId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_Category">
+              <PropertyRef Name="LoginId_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogTechnically_Comment_BlogTechnically_Post">
+          <End Role="BlogTechnically_Post" Type="Self.BlogTechnically_Post" Multiplicity="0..1" />
+          <End Role="BlogTechnically_Comment" Type="Self.BlogTechnically_Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_Post">
+              <PropertyRef Name="PostId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_Comment">
+              <PropertyRef Name="PostId_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogTechnically_Comment_BlogTechnically_User">
+          <End Role="BlogTechnically_User" Type="Self.BlogTechnically_User" Multiplicity="0..1" />
+          <End Role="BlogTechnically_Comment" Type="Self.BlogTechnically_Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_User">
+              <PropertyRef Name="LoginId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_Comment">
+              <PropertyRef Name="LoginId_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogTechnically_Post_BlogTechnically_Post">
+          <End Role="BlogTechnically_Post" Type="Self.BlogTechnically_Post" Multiplicity="1" />
+          <End Role="BlogTechnically_Post1" Type="Self.BlogTechnically_Post" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_Post">
+              <PropertyRef Name="PostId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_Post1">
+              <PropertyRef Name="PostId_PK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogTechnically_Post_BlogTechnically_User">
+          <End Role="BlogTechnically_User" Type="Self.BlogTechnically_User" Multiplicity="1" />
+          <End Role="BlogTechnically_Post" Type="Self.BlogTechnically_Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_User">
+              <PropertyRef Name="LoginId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_Post">
+              <PropertyRef Name="LoginId_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogTechnically_Profile_BlogTechnically_User">
+          <End Role="BlogTechnically_User" Type="Self.BlogTechnically_User" Multiplicity="0..1" />
+          <End Role="BlogTechnically_Profile" Type="Self.BlogTechnically_Profile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_User">
+              <PropertyRef Name="LoginId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_Profile">
+              <PropertyRef Name="LoginId_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogTechnically_Role_BlogTechnically_Permission">
+          <End Role="BlogTechnically_Permission" Type="Self.BlogTechnically_Permission" Multiplicity="1" />
+          <End Role="BlogTechnically_Role" Type="Self.BlogTechnically_Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_Permission">
+              <PropertyRef Name="PermissionId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_Role">
+              <PropertyRef Name="PermissionId_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogTechnically_Role_BlogTechnically_Role">
+          <End Role="BlogTechnically_Role" Type="Self.BlogTechnically_Role" Multiplicity="1" />
+          <End Role="BlogTechnically_Role1" Type="Self.BlogTechnically_Role" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_Role">
+              <PropertyRef Name="RoleId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_Role1">
+              <PropertyRef Name="RoleId_PK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogTechnically_Token_BlogTechnically_User">
+          <End Role="BlogTechnically_User" Type="Self.BlogTechnically_User" Multiplicity="0..1" />
+          <End Role="BlogTechnically_Token" Type="Self.BlogTechnically_Token" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_User">
+              <PropertyRef Name="LoginId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_Token">
+              <PropertyRef Name="LoginId_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogTechnically_User_BlogTechnically_Role">
+          <End Role="BlogTechnically_Role" Type="Self.BlogTechnically_Role" Multiplicity="1" />
+          <End Role="BlogTechnically_User" Type="Self.BlogTechnically_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_Role">
+              <PropertyRef Name="RoleId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_User">
+              <PropertyRef Name="RoleId_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BlogTechnicallyModelStoreContainer">
+          <EntitySet Name="BlogTechnically_Category" EntityType="Self.BlogTechnically_Category" Schema="dbo" Table="BlogTechnically.Category" store:Type="Tables" />
+          <EntitySet Name="BlogTechnically_Comment" EntityType="Self.BlogTechnically_Comment" Schema="dbo" Table="BlogTechnically.Comment" store:Type="Tables" />
+          <EntitySet Name="BlogTechnically_Permission" EntityType="Self.BlogTechnically_Permission" Schema="dbo" Table="BlogTechnically.Permission" store:Type="Tables" />
+          <EntitySet Name="BlogTechnically_Post" EntityType="Self.BlogTechnically_Post" Schema="dbo" Table="BlogTechnically.Post" store:Type="Tables" />
+          <EntitySet Name="BlogTechnically_Profile" EntityType="Self.BlogTechnically_Profile" Schema="dbo" Table="BlogTechnically.Profile" store:Type="Tables" />
+          <EntitySet Name="BlogTechnically_Role" EntityType="Self.BlogTechnically_Role" Schema="dbo" Table="BlogTechnically.Role" store:Type="Tables" />
+          <EntitySet Name="BlogTechnically_Token" EntityType="Self.BlogTechnically_Token" Schema="dbo" Table="BlogTechnically.Token" store:Type="Tables" />
+          <EntitySet Name="BlogTechnically_User" EntityType="Self.BlogTechnically_User" Schema="dbo" Table="BlogTechnically.User" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BlogTechnically_Category_BlogTechnically_User" Association="Self.FK_BlogTechnically_Category_BlogTechnically_User">
+            <End Role="BlogTechnically_User" EntitySet="BlogTechnically_User" />
+            <End Role="BlogTechnically_Category" EntitySet="BlogTechnically_Category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogTechnically_Comment_BlogTechnically_Post" Association="Self.FK_BlogTechnically_Comment_BlogTechnically_Post">
+            <End Role="BlogTechnically_Post" EntitySet="BlogTechnically_Post" />
+            <End Role="BlogTechnically_Comment" EntitySet="BlogTechnically_Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogTechnically_Comment_BlogTechnically_User" Association="Self.FK_BlogTechnically_Comment_BlogTechnically_User">
+            <End Role="BlogTechnically_User" EntitySet="BlogTechnically_User" />
+            <End Role="BlogTechnically_Comment" EntitySet="BlogTechnically_Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogTechnically_Post_BlogTechnically_Post" Association="Self.FK_BlogTechnically_Post_BlogTechnically_Post">
+            <End Role="BlogTechnically_Post" EntitySet="BlogTechnically_Post" />
+            <End Role="BlogTechnically_Post1" EntitySet="BlogTechnically_Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogTechnically_Post_BlogTechnically_User" Association="Self.FK_BlogTechnically_Post_BlogTechnically_User">
+            <End Role="BlogTechnically_User" EntitySet="BlogTechnically_User" />
+            <End Role="BlogTechnically_Post" EntitySet="BlogTechnically_Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogTechnically_Profile_BlogTechnically_User" Association="Self.FK_BlogTechnically_Profile_BlogTechnically_User">
+            <End Role="BlogTechnically_User" EntitySet="BlogTechnically_User" />
+            <End Role="BlogTechnically_Profile" EntitySet="BlogTechnically_Profile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogTechnically_Role_BlogTechnically_Permission" Association="Self.FK_BlogTechnically_Role_BlogTechnically_Permission">
+            <End Role="BlogTechnically_Permission" EntitySet="BlogTechnically_Permission" />
+            <End Role="BlogTechnically_Role" EntitySet="BlogTechnically_Role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogTechnically_Role_BlogTechnically_Role" Association="Self.FK_BlogTechnically_Role_BlogTechnically_Role">
+            <End Role="BlogTechnically_Role" EntitySet="BlogTechnically_Role" />
+            <End Role="BlogTechnically_Role1" EntitySet="BlogTechnically_Role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogTechnically_Token_BlogTechnically_User" Association="Self.FK_BlogTechnically_Token_BlogTechnically_User">
+            <End Role="BlogTechnically_User" EntitySet="BlogTechnically_User" />
+            <End Role="BlogTechnically_Token" EntitySet="BlogTechnically_Token" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogTechnically_User_BlogTechnically_Role" Association="Self.FK_BlogTechnically_User_BlogTechnically_Role">
+            <End Role="BlogTechnically_Role" EntitySet="BlogTechnically_Role" />
+            <End Role="BlogTechnically_User" EntitySet="BlogTechnically_User" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BlogTechnicallyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="BlogTechnically_Category">
+          <Key>
+            <PropertyRef Name="CategoryId_PK" />
+          </Key>
+          <Property Name="CategoryId_PK" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Active" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="LoginId_FK" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BlogTechnically_User" Relationship="Self.FK_BlogTechnically_Category_BlogTechnically_User" FromRole="BlogTechnically_Category" ToRole="BlogTechnically_User" />
+        </EntityType>
+        <EntityType Name="BlogTechnically_Comment">
+          <Key>
+            <PropertyRef Name="CommentId_PK" />
+          </Key>
+          <Property Name="CommentId_PK" Type="Int32" Nullable="false" />
+          <Property Name="LoginId_FK" Type="Int32" />
+          <Property Name="Comment" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CommentedDate" Type="DateTime" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <Property Name="PostId_FK" Type="Int32" />
+          <Property Name="ParentId" Type="Int32" />
+          <NavigationProperty Name="BlogTechnically_Post" Relationship="Self.FK_BlogTechnically_Comment_BlogTechnically_Post" FromRole="BlogTechnically_Comment" ToRole="BlogTechnically_Post" />
+          <NavigationProperty Name="BlogTechnically_User" Relationship="Self.FK_BlogTechnically_Comment_BlogTechnically_User" FromRole="BlogTechnically_Comment" ToRole="BlogTechnically_User" />
+        </EntityType>
+        <EntityType Name="BlogTechnically_Permission">
+          <Key>
+            <PropertyRef Name="PermissionId_PK" />
+          </Key>
+          <Property Name="PermissionId_PK" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BlogTechnically_Role" Relationship="Self.FK_BlogTechnically_Role_BlogTechnically_Permission" FromRole="BlogTechnically_Permission" ToRole="BlogTechnically_Role" />
+        </EntityType>
+        <EntityType Name="BlogTechnically_Post">
+          <Key>
+            <PropertyRef Name="PostId_PK" />
+          </Key>
+          <Property Name="PostId_PK" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PostContent" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PostedBy" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PostedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Status" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="LastModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LoginId_FK" Type="Int32" Nullable="false" />
+          <Property Name="CommentId_FK" Type="Int32" />
+          <NavigationProperty Name="BlogTechnically_Comment" Relationship="Self.FK_BlogTechnically_Comment_BlogTechnically_Post" FromRole="BlogTechnically_Post" ToRole="BlogTechnically_Comment" />
+          <NavigationProperty Name="BlogTechnically_Post1" Relationship="Self.FK_BlogTechnically_Post_BlogTechnically_Post" FromRole="BlogTechnically_Post" ToRole="BlogTechnically_Post1" />
+          <NavigationProperty Name="BlogTechnically_Post2" Relationship="Self.FK_BlogTechnically_Post_BlogTechnically_Post" FromRole="BlogTechnically_Post1" ToRole="BlogTechnically_Post" />
+          <NavigationProperty Name="BlogTechnically_User" Relationship="Self.FK_BlogTechnically_Post_BlogTechnically_User" FromRole="BlogTechnically_Post" ToRole="BlogTechnically_User" />
+        </EntityType>
+        <EntityType Name="BlogTechnically_Profile">
+          <Key>
+            <PropertyRef Name="ProfileId_PK" />
+          </Key>
+          <Property Name="ProfileId_PK" Type="Int32" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ProfilePicture" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="LoginId_FK" Type="Int32" />
+          <Property Name="AboutMe" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="MobileNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BlogTechnically_User" Relationship="Self.FK_BlogTechnically_Profile_BlogTechnically_User" FromRole="BlogTechnically_Profile" ToRole="BlogTechnically_User" />
+        </EntityType>
+        <EntityType Name="BlogTechnically_Role">
+          <Key>
+            <PropertyRef Name="RoleId_PK" />
+          </Key>
+          <Property Name="RoleId_PK" Type="Int32" Nullable="false" />
+          <Property Name="RoleType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="PermissionId_FK" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BlogTechnically_Permission" Relationship="Self.FK_BlogTechnically_Role_BlogTechnically_Permission" FromRole="BlogTechnically_Role" ToRole="BlogTechnically_Permission" />
+          <NavigationProperty Name="BlogTechnically_Role1" Relationship="Self.FK_BlogTechnically_Role_BlogTechnically_Role" FromRole="BlogTechnically_Role" ToRole="BlogTechnically_Role1" />
+          <NavigationProperty Name="BlogTechnically_Role2" Relationship="Self.FK_BlogTechnically_Role_BlogTechnically_Role" FromRole="BlogTechnically_Role1" ToRole="BlogTechnically_Role" />
+          <NavigationProperty Name="BlogTechnically_User" Relationship="Self.FK_BlogTechnically_User_BlogTechnically_Role" FromRole="BlogTechnically_Role" ToRole="BlogTechnically_User" />
+        </EntityType>
+        <EntityType Name="BlogTechnically_Token">
+          <Key>
+            <PropertyRef Name="TokenId_PK" />
+          </Key>
+          <Property Name="TokenId_PK" Type="Int32" Nullable="false" />
+          <Property Name="LoginId_FK" Type="Int32" />
+          <Property Name="IssuedOn" Type="DateTime" Precision="3" />
+          <Property Name="ExpiresOn" Type="DateTime" Precision="3" />
+          <Property Name="AuthToken" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="BlogTechnically_User" Relationship="Self.FK_BlogTechnically_Token_BlogTechnically_User" FromRole="BlogTechnically_Token" ToRole="BlogTechnically_User" />
+        </EntityType>
+        <EntityType Name="BlogTechnically_User">
+          <Key>
+            <PropertyRef Name="LoginId_PK" />
+          </Key>
+          <Property Name="LoginId_PK" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="RoleId_FK" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="BlogTechnically_Category" Relationship="Self.FK_BlogTechnically_Category_BlogTechnically_User" FromRole="BlogTechnically_User" ToRole="BlogTechnically_Category" />
+          <NavigationProperty Name="BlogTechnically_Comment" Relationship="Self.FK_BlogTechnically_Comment_BlogTechnically_User" FromRole="BlogTechnically_User" ToRole="BlogTechnically_Comment" />
+          <NavigationProperty Name="BlogTechnically_Post" Relationship="Self.FK_BlogTechnically_Post_BlogTechnically_User" FromRole="BlogTechnically_User" ToRole="BlogTechnically_Post" />
+          <NavigationProperty Name="BlogTechnically_Profile" Relationship="Self.FK_BlogTechnically_Profile_BlogTechnically_User" FromRole="BlogTechnically_User" ToRole="BlogTechnically_Profile" />
+          <NavigationProperty Name="BlogTechnically_Role" Relationship="Self.FK_BlogTechnically_User_BlogTechnically_Role" FromRole="BlogTechnically_User" ToRole="BlogTechnically_Role" />
+          <NavigationProperty Name="BlogTechnically_Token" Relationship="Self.FK_BlogTechnically_Token_BlogTechnically_User" FromRole="BlogTechnically_User" ToRole="BlogTechnically_Token" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_BlogTechnically_Category_BlogTechnically_User">
+          <End Role="BlogTechnically_User" Type="Self.BlogTechnically_User" Multiplicity="1" />
+          <End Role="BlogTechnically_Category" Type="Self.BlogTechnically_Category" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_User">
+              <PropertyRef Name="LoginId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_Category">
+              <PropertyRef Name="LoginId_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogTechnically_Comment_BlogTechnically_Post">
+          <End Role="BlogTechnically_Post" Type="Self.BlogTechnically_Post" Multiplicity="0..1" />
+          <End Role="BlogTechnically_Comment" Type="Self.BlogTechnically_Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_Post">
+              <PropertyRef Name="PostId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_Comment">
+              <PropertyRef Name="PostId_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogTechnically_Comment_BlogTechnically_User">
+          <End Role="BlogTechnically_User" Type="Self.BlogTechnically_User" Multiplicity="0..1" />
+          <End Role="BlogTechnically_Comment" Type="Self.BlogTechnically_Comment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_User">
+              <PropertyRef Name="LoginId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_Comment">
+              <PropertyRef Name="LoginId_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogTechnically_Role_BlogTechnically_Permission">
+          <End Role="BlogTechnically_Permission" Type="Self.BlogTechnically_Permission" Multiplicity="1" />
+          <End Role="BlogTechnically_Role" Type="Self.BlogTechnically_Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_Permission">
+              <PropertyRef Name="PermissionId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_Role">
+              <PropertyRef Name="PermissionId_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogTechnically_Post_BlogTechnically_Post">
+          <End Role="BlogTechnically_Post" Type="Self.BlogTechnically_Post" Multiplicity="1" />
+          <End Role="BlogTechnically_Post1" Type="Self.BlogTechnically_Post" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_Post">
+              <PropertyRef Name="PostId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_Post1">
+              <PropertyRef Name="PostId_PK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogTechnically_Post_BlogTechnically_User">
+          <End Role="BlogTechnically_User" Type="Self.BlogTechnically_User" Multiplicity="1" />
+          <End Role="BlogTechnically_Post" Type="Self.BlogTechnically_Post" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_User">
+              <PropertyRef Name="LoginId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_Post">
+              <PropertyRef Name="LoginId_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogTechnically_Profile_BlogTechnically_User">
+          <End Role="BlogTechnically_User" Type="Self.BlogTechnically_User" Multiplicity="0..1" />
+          <End Role="BlogTechnically_Profile" Type="Self.BlogTechnically_Profile" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_User">
+              <PropertyRef Name="LoginId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_Profile">
+              <PropertyRef Name="LoginId_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogTechnically_Role_BlogTechnically_Role">
+          <End Role="BlogTechnically_Role" Type="Self.BlogTechnically_Role" Multiplicity="1" />
+          <End Role="BlogTechnically_Role1" Type="Self.BlogTechnically_Role" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_Role">
+              <PropertyRef Name="RoleId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_Role1">
+              <PropertyRef Name="RoleId_PK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogTechnically_User_BlogTechnically_Role">
+          <End Role="BlogTechnically_Role" Type="Self.BlogTechnically_Role" Multiplicity="1" />
+          <End Role="BlogTechnically_User" Type="Self.BlogTechnically_User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_Role">
+              <PropertyRef Name="RoleId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_User">
+              <PropertyRef Name="RoleId_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BlogTechnically_Token_BlogTechnically_User">
+          <End Role="BlogTechnically_User" Type="Self.BlogTechnically_User" Multiplicity="0..1" />
+          <End Role="BlogTechnically_Token" Type="Self.BlogTechnically_Token" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BlogTechnically_User">
+              <PropertyRef Name="LoginId_PK" />
+            </Principal>
+            <Dependent Role="BlogTechnically_Token">
+              <PropertyRef Name="LoginId_FK" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BlogTechnicallyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="BlogTechnically_Category" EntityType="Self.BlogTechnically_Category" />
+          <EntitySet Name="BlogTechnically_Comment" EntityType="Self.BlogTechnically_Comment" />
+          <EntitySet Name="BlogTechnically_Permission" EntityType="Self.BlogTechnically_Permission" />
+          <EntitySet Name="BlogTechnically_Post" EntityType="Self.BlogTechnically_Post" />
+          <EntitySet Name="BlogTechnically_Profile" EntityType="Self.BlogTechnically_Profile" />
+          <EntitySet Name="BlogTechnically_Role" EntityType="Self.BlogTechnically_Role" />
+          <EntitySet Name="BlogTechnically_Token" EntityType="Self.BlogTechnically_Token" />
+          <EntitySet Name="BlogTechnically_User" EntityType="Self.BlogTechnically_User" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <AssociationSet Name="FK_BlogTechnically_Category_BlogTechnically_User" Association="Self.FK_BlogTechnically_Category_BlogTechnically_User">
+            <End Role="BlogTechnically_User" EntitySet="BlogTechnically_User" />
+            <End Role="BlogTechnically_Category" EntitySet="BlogTechnically_Category" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogTechnically_Comment_BlogTechnically_Post" Association="Self.FK_BlogTechnically_Comment_BlogTechnically_Post">
+            <End Role="BlogTechnically_Post" EntitySet="BlogTechnically_Post" />
+            <End Role="BlogTechnically_Comment" EntitySet="BlogTechnically_Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogTechnically_Comment_BlogTechnically_User" Association="Self.FK_BlogTechnically_Comment_BlogTechnically_User">
+            <End Role="BlogTechnically_User" EntitySet="BlogTechnically_User" />
+            <End Role="BlogTechnically_Comment" EntitySet="BlogTechnically_Comment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogTechnically_Role_BlogTechnically_Permission" Association="Self.FK_BlogTechnically_Role_BlogTechnically_Permission">
+            <End Role="BlogTechnically_Permission" EntitySet="BlogTechnically_Permission" />
+            <End Role="BlogTechnically_Role" EntitySet="BlogTechnically_Role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogTechnically_Post_BlogTechnically_Post" Association="Self.FK_BlogTechnically_Post_BlogTechnically_Post">
+            <End Role="BlogTechnically_Post" EntitySet="BlogTechnically_Post" />
+            <End Role="BlogTechnically_Post1" EntitySet="BlogTechnically_Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogTechnically_Post_BlogTechnically_User" Association="Self.FK_BlogTechnically_Post_BlogTechnically_User">
+            <End Role="BlogTechnically_User" EntitySet="BlogTechnically_User" />
+            <End Role="BlogTechnically_Post" EntitySet="BlogTechnically_Post" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogTechnically_Profile_BlogTechnically_User" Association="Self.FK_BlogTechnically_Profile_BlogTechnically_User">
+            <End Role="BlogTechnically_User" EntitySet="BlogTechnically_User" />
+            <End Role="BlogTechnically_Profile" EntitySet="BlogTechnically_Profile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogTechnically_Role_BlogTechnically_Role" Association="Self.FK_BlogTechnically_Role_BlogTechnically_Role">
+            <End Role="BlogTechnically_Role" EntitySet="BlogTechnically_Role" />
+            <End Role="BlogTechnically_Role1" EntitySet="BlogTechnically_Role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogTechnically_User_BlogTechnically_Role" Association="Self.FK_BlogTechnically_User_BlogTechnically_Role">
+            <End Role="BlogTechnically_Role" EntitySet="BlogTechnically_Role" />
+            <End Role="BlogTechnically_User" EntitySet="BlogTechnically_User" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BlogTechnically_Token_BlogTechnically_User" Association="Self.FK_BlogTechnically_Token_BlogTechnically_User">
+            <End Role="BlogTechnically_User" EntitySet="BlogTechnically_User" />
+            <End Role="BlogTechnically_Token" EntitySet="BlogTechnically_Token" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BlogTechnicallyModelStoreContainer" CdmEntityContainer="BlogTechnicallyEntities">
+          <EntitySetMapping Name="BlogTechnically_Category">
+            <EntityTypeMapping TypeName="BlogTechnicallyModel.BlogTechnically_Category">
+              <MappingFragment StoreEntitySet="BlogTechnically_Category">
+                <ScalarProperty Name="CategoryId_PK" ColumnName="CategoryId_PK" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="LoginId_FK" ColumnName="LoginId_FK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BlogTechnically_Comment">
+            <EntityTypeMapping TypeName="BlogTechnicallyModel.BlogTechnically_Comment">
+              <MappingFragment StoreEntitySet="BlogTechnically_Comment">
+                <ScalarProperty Name="CommentId_PK" ColumnName="CommentId_PK" />
+                <ScalarProperty Name="LoginId_FK" ColumnName="LoginId_FK" />
+                <ScalarProperty Name="Comment" ColumnName="Comment" />
+                <ScalarProperty Name="CommentedDate" ColumnName="CommentedDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="PostId_FK" ColumnName="PostId_FK" />
+                <ScalarProperty Name="ParentId" ColumnName="ParentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BlogTechnically_Permission">
+            <EntityTypeMapping TypeName="BlogTechnicallyModel.BlogTechnically_Permission">
+              <MappingFragment StoreEntitySet="BlogTechnically_Permission">
+                <ScalarProperty Name="PermissionId_PK" ColumnName="PermissionId_PK" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BlogTechnically_Post">
+            <EntityTypeMapping TypeName="BlogTechnicallyModel.BlogTechnically_Post">
+              <MappingFragment StoreEntitySet="BlogTechnically_Post">
+                <ScalarProperty Name="PostId_PK" ColumnName="PostId_PK" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="PostContent" ColumnName="PostContent" />
+                <ScalarProperty Name="PostedBy" ColumnName="PostedBy" />
+                <ScalarProperty Name="PostedDate" ColumnName="PostedDate" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+                <ScalarProperty Name="LastModifiedDate" ColumnName="LastModifiedDate" />
+                <ScalarProperty Name="LoginId_FK" ColumnName="LoginId_FK" />
+                <ScalarProperty Name="CommentId_FK" ColumnName="CommentId_FK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BlogTechnically_Profile">
+            <EntityTypeMapping TypeName="BlogTechnicallyModel.BlogTechnically_Profile">
+              <MappingFragment StoreEntitySet="BlogTechnically_Profile">
+                <ScalarProperty Name="ProfileId_PK" ColumnName="ProfileId_PK" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="ProfilePicture" ColumnName="ProfilePicture" />
+                <ScalarProperty Name="LoginId_FK" ColumnName="LoginId_FK" />
+                <ScalarProperty Name="AboutMe" ColumnName="AboutMe" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BlogTechnically_Role">
+            <EntityTypeMapping TypeName="BlogTechnicallyModel.BlogTechnically_Role">
+              <MappingFragment StoreEntitySet="BlogTechnically_Role">
+                <ScalarProperty Name="RoleId_PK" ColumnName="RoleId_PK" />
+                <ScalarProperty Name="RoleType" ColumnName="RoleType" />
+                <ScalarProperty Name="PermissionId_FK" ColumnName="PermissionId_FK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BlogTechnically_Token">
+            <EntityTypeMapping TypeName="BlogTechnicallyModel.BlogTechnically_Token">
+              <MappingFragment StoreEntitySet="BlogTechnically_Token">
+                <ScalarProperty Name="TokenId_PK" ColumnName="TokenId_PK" />
+                <ScalarProperty Name="LoginId_FK" ColumnName="LoginId_FK" />
+                <ScalarProperty Name="IssuedOn" ColumnName="IssuedOn" />
+                <ScalarProperty Name="ExpiresOn" ColumnName="ExpiresOn" />
+                <ScalarProperty Name="AuthToken" ColumnName="AuthToken" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BlogTechnically_User">
+            <EntityTypeMapping TypeName="BlogTechnicallyModel.BlogTechnically_User">
+              <MappingFragment StoreEntitySet="BlogTechnically_User">
+                <ScalarProperty Name="LoginId_PK" ColumnName="LoginId_PK" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="RoleId_FK" ColumnName="RoleId_FK" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="BlogTechnicallyModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
